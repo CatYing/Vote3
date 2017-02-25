@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}选手详情{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            {% if state == 'success' %}
+                <div class="well">
+                    <h2 class="text-success text-center">提交成功</h2>
+                </div>
+            {% endif %}
+            <div class="col-xs-12 col-md-4">
+                <div class="imgh">
+                    <img class="img-responsive" src="{% url 'media' member.img %}" alt="" width="100%" height="100%">
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-offset-1 col-md-6">
+                <h2 class="text-center">{{ member.name }}</h2>
+                <br>
+                <h3>
+                    性别：
+                    {% if member.sex %}
+                        男
+                    {% else %}
+                        女
+                    {% endif %}
+                </h3>
+                <h3>
+                    个人简介：
+                    <div class="tex">
+                        {{ member.introduction }}
+                    </div>
+                </h3>
+                <div class="panel panel-success">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">得分情况</div>
+                    <div class="panel-body">
+                        <p>请尊重选手事实，公正评分</p>
+                        {% if record_state == 'existed' %}
+                            <p>您已评分，上次评分为 {{ last_grade }}</p>
+                        {% else %}
+                            <p>您尚未评分</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <form method="post" class="form-inline" role="form">
+                    {% csrf_token %}
+                    <label for="id_grade" class="col-xs-3 col-md-2"
+                           style="font-size: 1.04em;line-height: 2em">提交分数</label>
+                    <input type="text" class="form-control col-md-3" name="grade" id="id_grade">
+                    <button class="btn btn-primary col-xs-4 col-md-offset-2 col-xs-offset-4" type="submit">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
