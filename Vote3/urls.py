@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^login/$', c_views.login, name='login'),
     url(r'^logout/$', c_views.logout, name='logout'),
     url(r'^members/$', c_views.member_list, name='list'),
-    url(r'^detail/(?P<member_id>[0-9]+)/$', c_views.member_detail, name='detail'),
+    # url(r'^detail/(?P<member_id>[0-9]+)/$', c_views.member_detail, name='detail'),
+    url(r'api/edit/$', c_views.edit_grade, name='edit'),
     url(r'^voter-rank/$', c_views.voter_rank, name='voter_rank'),
     url(r'^all-rank/$', c_views.all_rank, name='all_rank'),
 ]

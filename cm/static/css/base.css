@@ -41,3 +41,8 @@ body
 .container {
     padding: 0px;
 }
+
+.caption {
+	display: block;
+	min-height: 50px;
+}

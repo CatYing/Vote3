@@ -16,6 +16,7 @@
     <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/masonry.pkgd.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/imagesloaded.pkgd.min.js" %}"></script>
+    <script src="{% static "js/jquery.cookie.js" %}"></script>
     <title>您的评分记录</title>
 </head>
 <body>
@@ -60,6 +61,7 @@
                     <th>#</th>
                     <th>选手名</th>
                     <th>分数</th>
+                    <th>修改</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,6 +70,7 @@
                         <td>{{ forloop.counter }}</td>
                         <td>{{ record.member.name }}</td>
                         <td>{{ record.grade }}</td>
+                        <td><a href="#" class="edit" id="{{ record.member.id }}">修改</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -97,5 +100,38 @@
             });
         });
     });
+
+    var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+    $('.edit').click(function () {
+        var grade = prompt('修改成绩');
+        var options = {
+            type: 'POST',
+            url: '{% url 'edit' %}',
+            data: {
+                member_id: $(this).attr('id'),
+                grade: grade
+            },
+            success: function() {
+                location.reload(true);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        };
+        $.ajax(options);
+
+    })
+
 </script>
 </html>
